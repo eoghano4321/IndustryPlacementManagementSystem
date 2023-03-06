@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 user = 'SYSTEM'
 password = 'root'
 port = 1521
-service_name = 'XE'
+service_name = 'XEPDB1'
 conn_string = "localhost:{port}/{service_name}".format(
     port=port, service_name=service_name)
 app = Flask(__name__)
@@ -110,6 +110,10 @@ def empty():
 @app.route('/insert_jobs_View')
 def jobs_view():
     return render_template('Insert_jobs.html')
+
+@app.route('/choosePreference_View')
+def choose_view():
+    return render_template('choosePreference.html')
 
 @app.route('/login_View')
 def login():
