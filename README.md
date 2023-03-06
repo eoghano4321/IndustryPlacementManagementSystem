@@ -38,7 +38,7 @@ Open DBeaver and establish a connection with the database using credentials of S
 </p>
 </details>
 
-<details><summary><b>Step 4 - Launch the app</b></summary>
+<details><summary><b>Step 5 - Launch the app</b></summary>
 <p>
 Having pulled the files. Open the folder in your preffered IDE, and run 'main.py'.<br>
 Paste the follwing link in your browser: 'http://127.0.0.1:5000'
