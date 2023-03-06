@@ -48,21 +48,21 @@ def get_data():
     return render_template('index.html', data=data, job_id=id)
 
 
-@app.route('/jobs_view',methods=['GET'])
+@app.route('/placements_view',methods=['GET'])
 def update():
     jobs = []
     connection = oracledb.connect(
         user=user, password=password, dsn=conn_string)
     cur = connection.cursor()
-    cur.execute('SELECT JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY FROM HR.JOBS')
+    cur.execute('SELECT PLACEMENT_ID, TITLE, SKILLS, DESCRIPTION FROM IPMS.PLACEMENTS')
     for row in cur:
-        jobs.append({"JID": row[0], "JTitle": row[1],
-                    "minS": row[2], "maxS": row[3]})
+        jobs.append({"PID": row[0], "PTitle": row[1],
+                    "Skills": row[2], "Desc": row[3]})
     # Close the cursor and connection
     cur.close()
     connection.close()
     # Pass the data to the template to display in the HTML table
-    return render_template('jobs.html', data=jobs)
+    return render_template('placements.html', data=jobs)
     #return render_template('about.html')
 
 

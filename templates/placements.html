@@ -12,7 +12,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;">
-            <h5>this is a data page</h3>
+            <h5>Placements</h3>
         </div>
         
         <div id="table">
@@ -21,18 +21,18 @@
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Title</th>
-                  <th scope="col">Min Salary</th>
-                  <th scope="col">Max Salary</th>
+                  <th scope="col">Skills</th>
+                  <th scope="col">Description</th>
                 </tr>
               </thead>
               <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
                 <!-- first-row -->
                 {% for row in data %}
                 <tr>
-                  <td>{{ row["JID"] }}</td>
-                  <td>{{ row["JTitle"] }}</td>
-                  <td>{{ row["minS"] }}</td>
-                  <td>{{ row["maxS"] }}</td>
+                  <td>{{ row["PID"] }}</td>
+                  <td>{{ row["PTitle"] }}</td>
+                  <td>{{ row["Skills"] }}</td>
+                  <td>{{ row["Desc"] }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
