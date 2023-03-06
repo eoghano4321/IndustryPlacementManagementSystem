@@ -39,7 +39,7 @@ def get_data():
     cur.execute('select * from IPMS.USERS')
     data.clear()
     for row in cur:
-        data.append({"First_Name": row[2], "Last_Name": row[1],
+        data.append({"ID": row[0], "First_Name": row[2], "Last_Name": row[1],
                     "Login_ID": row[3], "USERTYPE_ID": row[4], "IS_PENDING": row[5], "IS_APPROVED": row[6]})
     # Close the cursor and connection
     cur.close()
@@ -142,18 +142,17 @@ def submit_login():
 
 @app.route("/submit_form", methods=["GET", "POST"])
 def submit_form():
+    print("SUBMITTING")
     con = oracledb.connect(user=user, password=password, dsn=conn_string)
     cur = con.cursor()
     Id = request.form["id"]
-    fname = request.form["fname"]
-    lname = request.form["lname"]
-    login_id = request.form["loginid"]
     usertype_id = request.form["usertype_id"]
     ispending = request.form["ispending"]
-    isapproved = request.form["isapproved"]
-    # print(("SQL STATEMENT:     INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
+    isapproved = request.form["isaccepted"]
+    print("TEST" + Id + usertype_id + ispending + isapproved)
     # Insert the data into the database
-    cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
+    print(("UPDATE IPMS.USERS SET USER_TYPE_ID = {}, ISPENDING = {}, ISAPPROVED = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE USER_ID = {}").format(usertype_id, ispending, isapproved, Id))
+    cur.execute(("UPDATE IPMS.USERS SET USER_TYPE_ID = {}, ISPENDING = {}, ISAPPROVED = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE USER_ID = {}").format(usertype_id, ispending, isapproved, Id))
     con.commit()
     cur.close()
     con.close()
