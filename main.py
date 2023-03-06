@@ -110,6 +110,12 @@ def empty():
 @app.route('/insert_jobs_View')
 def jobs_view():
     return render_template('Insert_jobs.html')
+@app.route('/View_Preferences_View')
+def view_preferences():
+    return render_template('ViewPreferences.html')
+@app.route('/Students_View')
+def Students():
+    return render_template('Students.html')
 
 @app.route('/choosePreference_View')
 def choose_view():
