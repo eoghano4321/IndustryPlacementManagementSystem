@@ -30,7 +30,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/employee_view', methods=['GET', 'POST'])
+@app.route('/user_View', methods=['GET', 'POST'])
 def get_data():
     print("Getting")
     connection = oracledb.connect(
