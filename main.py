@@ -117,6 +117,10 @@ def view_preferences():
 def Students():
     return render_template('Students.html')
 
+@app.route('/choosePreference_View')
+def choose_view():
+    return render_template('choosePreference.html')
+
 @app.route('/login_View')
 def login():
     return render_template('login.html')
