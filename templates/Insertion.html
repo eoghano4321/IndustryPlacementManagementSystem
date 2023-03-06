@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Tutorial</title>
+    {% include 'nav.html' %}
+  </head>
+
+  <body>
+    <div
+      class="container-fluid"
+      style="display: flex; justify-content: center; margin-top: 4rem"
+    >
+      <form action="/Insertion_data" method="POST">
+        <div
+          class="form-row"
+          style="display: flex; gap: 2rem; margin-bottom: 15px"
+        >
+          <div class="form-group col-md-7">
+            <label for="fname">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fname"
+              name="fname"
+              placeholder="First Name"
+              style="box-shadow: none"
+            />
+          </div>
+          <div class="form-group col-md-7">
+            <label for="lname">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lname"
+              name="lname"
+              placeholder="Last Name"
+              style="box-shadow: none"
+            />
+          </div>
+        </div>
+        <div
+          class="form-row"
+          style="display: flex; gap: 2rem; margin-bottom: 15px"
+        >
+          <div class="form-group col-md-7">
+            <label for="loginid">Login ID</label>
+            <input
+              type="number"
+              class="form-control"
+              id="loginid"
+              name="loginid"
+              placeholder="Login ID"
+              style="box-shadow: none"
+            />
+          </div>
+          <div class="form-group col-md-7">
+            <label for="usertype_id">Usertype ID</label>
+            <input
+              type="number"
+              class="form-control"
+              id="usertype_id"
+              name="usertype_id"
+              placeholder="Usertype ID"
+              style="box-shadow: none"
+            />
+          </div>
+        </div>
+
+        <div
+          class="form-row"
+          style="display: flex; gap: 2rem; margin-bottom: 25px"
+        >
+          <!-- <div class="form-group">
+            <label for="isapproved">IS_APPROVED</label>
+            <br />
+            <select
+              name="isapproved"
+              onchange="updateValue(this)"
+              id="isapproved"
+              style="
+                border-color: rgb(181, 178, 178);
+                width: 275px;
+                height: 37px;
+                border-radius: 7px;
+              "
+            >
+              {% for option in job_id %}
+              <option value="{{ option }}">{{ option }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-7">
+            <label for="date">Hire Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              name="date"
+              placeholder="Hire Date"
+              style="box-shadow: none"
+            />
+          </div> -->
+        </div>
+        <div style="margin-left: 15rem">
+          <button type="submit" class="btn btn-dark btn-sm">
+            Add User
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+#bg-mynav {
+  justify-content: center;
+  background-color: #161718;
+  color: #f6f8fa;
+
+}
+
+#table {
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+#input1 {
+  float: right;
+  margin-right: 15%;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: none;
+}

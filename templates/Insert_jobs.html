@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Tutorial</title>
+    {% include 'nav.html' %}
+  </head>
+
+  <body>
+    <div
+      class="container-fluid"
+      style="display: flex; justify-content: center; margin-top: 4rem"
+    >
+      <form action="/Insert_jobs" method="POST">
+        <div
+          class="form-row"
+          style="display: flex; gap: 2rem; margin-bottom: 15px"
+        >
+          <div class="form-group col-md-7">
+            <label for="id">ID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="id"
+              name="id"
+              placeholder="ID"
+              style="box-shadow: none"
+            />
+          </div>
+          <div class="form-group col-md-7">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              placeholder="Title"
+              style="box-shadow: none"
+            />
+          </div>
+        </div>
+        <div
+          class="form-row"
+          style="display: flex; gap: 2rem; margin-bottom: 15px"
+        >
+          <div class="form-group col-md-7">
+            <label for="min">Min salary</label>
+            <input
+              type="text"
+              class="form-control"
+              id="min"
+              name="min"
+              placeholder="Min salary"
+              style="box-shadow: none"
+            />
+          </div>
+          <div class="form-group col-md-7">
+            <label for="max">Max salary</label>
+            <input
+              type="text"
+              class="form-control"
+              id="max"
+              name="max"
+              placeholder="Max salary"
+              style="box-shadow: none"
+            />
+          </div>
+        </div>
+        <div style="margin-left: 15rem">
+          <button type="submit" class="btn btn-dark btn-sm">
+            Add Record
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Tutorial</title>
+    {% include 'nav.html' %}
+  </head>
+  <body>
+    <main>
+      <div id="selector">
+        <input
+          type="text"
+          class="form-control"
+          id="input1"
+          onkeyup="myFunction()"
+          placeholder="User Name"
+        />
+      </div>
+      <div id="table">
+        <table class="table" id="tbl">
+          <thead style="background-color: #070707; color: white">
+            <tr>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Login ID</th>
+              <th scope="col">Usertype ID</th>
+              <th scope="col">Is Pending</th>
+              <th scope="col">Is Approved</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
+            <!-- first-row -->
+            {% for row in data %}
+            <tr>
+              <td>{{ row["First_Name"] }}</td>
+              <td>{{ row["Last_Name"] }}</td>
+              <td>{{ row["Login_ID"] }}</td>
+              <td>{{ row["USERTYPE_ID"] }}</td>
+              <td>{{ row["IS_PENDING"] }}</td>
+              <td>{{ row["IS_APPROVED"] }}</td>
+              <td style="display: flex; gap: 10px">
+                <i
+                  class="fa fa-trash-o"
+                  aria-hidden="true"
+                  style="cursor: pointer"
+                ></i>
+                <i
+                  class="fa fa-pencil"
+                  aria-hidden="true"
+                  style="cursor: pointer"
+                ></i>
+                <div style="margin-top: -3px">
+                  <i
+                    class="fa fa-plus"
+                    aria-hidden="true"
+                    style="cursor: pointer"
+                    data-bs-toggle="modal"
+                    data-bs-target="#myModal"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- Modal Insert -->
+      <div
+        class="modal fade"
+        id="myModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: black">
+              <button
+                style="background-color: rgb(223, 221, 220)"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="/submit_form" method="POST">
+                <div
+                  class="form-row"
+                  style="
+                    display: flex;
+                    gap: 2rem;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <div class="form-group col-md-6">
+                    <label for="id">User Id</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="id"
+                      name="id"
+                      placeholder="User Id"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fname">First Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fname"
+                      name="fname"
+                      placeholder="First Name"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="form-row"
+                  style="
+                    display: flex;
+                    gap: 2rem;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <div class="form-group col-md-6">
+                    <label for="lname">Last Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lname"
+                      name="lname"
+                      placeholder="Last Name"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="loginid">Login ID</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="loginid"
+                      name="loginid"
+                      placeholder="Login ID"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="form-row"
+                  style="
+                    display: flex;
+                    gap: 2rem;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <div class="form-group col-md-6">
+                    <label for="usertype_id">User Type ID</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="usertype_id"
+                      name="usertype_id"
+                      placeholder="User Type ID"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="ispending">Is Pending</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="ispending"
+                      name="ispending"
+                      placeholder="Is Pending"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="form-row"
+                  style="
+                    display: flex;
+                    gap: 2rem;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <div class="form-group col-md-6">
+                    <label for="isapproved">Is Approved</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="isapproved"
+                      name="isapproved"
+                      placeholder="Is Approved"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                  <!-- <div class="form-group col-md-6">
+                    <label for="job_id">JOB_ID</label>
+                    <br />
+                    <select
+                      name="job_id"
+                      onchange="updateValue(this)"
+                      id="job_id"
+                      style="
+                        border-color: rgb(181, 178, 178);
+                        width: 310px;
+                        height: 37px;
+                        border-radius: 7px;
+                      "
+                    >
+                      {% for option in job_id %}
+                      <option value="{{ option }}">{{ option }}</option>
+                      {% endfor %}
+                    </select>
+                  </div> -->
+                </div>
+                <!-- <div
+                  class="form-row"
+                  style="
+                    display: flex;
+                    gap: 2rem;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <div class="form-group col-md-6">
+                    <label for="date">Hire Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date"
+                      name="date"
+                      placeholder="Hire Date"
+                      style="box-shadow: none"
+                    />
+                  </div>
+                </div> -->
+                <div style="margin-right: 6%; margin-bottom: 10px">
+                  <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                  <button
+                    type="submit"
+                    class="btn btn-dark btn-sm"
+                    data-dismiss="modal"
+                    style="float: right"
+                  >
+                    Add User
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("input1");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

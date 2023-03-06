@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>View Jobs Tutorial</title>
+        {% include 'nav.html' %}
+    </head>
+
+    <body>
+        
+        <div style="display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;">
+            <h5>this is a data page</h3>
+        </div>
+        
+        <div id="table">
+            <table class="table" id="tbl">
+              <thead style="background-color: #070707; color: white">
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Min Salary</th>
+                  <th scope="col">Max Salary</th>
+                </tr>
+              </thead>
+              <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
+                <!-- first-row -->
+                {% for row in data %}
+                <tr>
+                  <td>{{ row["JID"] }}</td>
+                  <td>{{ row["JTitle"] }}</td>
+                  <td>{{ row["minS"] }}</td>
+                  <td>{{ row["maxS"] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div
+    </body>
+
+</html>

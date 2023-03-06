@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Tutorial</title>
+    {% include 'nav.html' %}
+  </head>
+
+  <body>
+    <div style="text-align: center; margin-top: 3rem">
+      {% if name %}
+      <p>Entered name is: {{name}}</p>
+      {% endif %} {% if Email %}
+      <p>Entered email is: {{Email}}</p>
+      {% endif %} {% if Number %}
+      <p>Entered Phone number is: {{Number}}</p>
+      {% endif %} {% if JOB %}
+      <p>Entered Job Id is: {{JOB}}</p>
+      {% endif %} {% if Date %}
+      <p>Entered Date is: {{Date}}</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
