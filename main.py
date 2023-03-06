@@ -45,16 +45,6 @@ def get_data():
     cur.close()
     connection.close()
 
-    # if request.method == "POST":
-    #     print("Posting")
-    #     connection = oracledb.connect(
-    #         user=user, password=password, dsn=conn_string)
-    #     cur = connection.cursor()
-    #     cur.execute('INSERT INTO IPMS.USERS VALUES({user_id}, {last_name}, {first_name}, {login_id}, {usertype_id}, {is_pending}, {is_approved}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)', user_id = 4, last_name = "Collison", first_name = "Juanita", login_id = 1, usertype_id = 1, is_pending = true, is_approved = false)
-    #     cur.close()
-    #     connection.close()
-    
-    # Pass the data to the template to display in the HTML table
     return render_template('index.html', data=data, job_id=id)
 
 
@@ -106,8 +96,6 @@ def getjobsData():
     max = request.form["max"]
     con = oracledb.connect(user=user, password=password, dsn=conn_string)
     cur = con.cursor()
-    #print("INSERT INTO HR.JOBS(JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY) VALUES (:0, :1, :2,:3)", (id, title,  int(min), int(max)))
-    
     cur.execute("INSERT INTO HR.JOBS(JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY) VALUES (:0, :1, :2,:3)", 
                 (id, title,  int(min), int(max)))
     con.commit()
