@@ -18,8 +18,8 @@ id = []
 connection = oracledb.connect(
     user=user, password=password, dsn=conn_string)
 cur = connection.cursor()
-job_id = cur.execute('select LOGIN_ID from IPMS.LOGIN')
-for row in job_id:
+login_id = cur.execute('select LOGIN_ID from IPMS.LOGIN')
+for row in login_id:
     id.append(row[0])
 cur.close()
 connection.close()
@@ -115,6 +115,30 @@ def jobs_view():
 def login():
     return render_template('login.html')
 
+@app.route('/submit_login', methods=["GET", "POST"])
+def submit_login():
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    cur.execute("SELECT max(LOGIN_ID) FROM IPMS.LOGIN")
+    for row in cur:
+        LId = row[0]
+    cur.execute("SELECT max(USER_ID) FROM IPMS.USERS")
+    for row in cur:
+        UId = row[0]
+    email = request.form["email"]
+    pswd = request.form["pswd"]
+    fname = request.form["fname"]
+    lname = request.form["lname"]
+    usertype_id = 0
+    ispending = 1
+    isapproved = 0
+    cur.execute(("INSERT INTO IPMS.LOGIN VALUES({}, '{}', '{}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(LId)+1, email, pswd))
+    cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('after_submit.html')
+
 
 @app.route("/submit_form", methods=["GET", "POST"])
 def submit_form():
@@ -127,7 +151,7 @@ def submit_form():
     usertype_id = request.form["usertype_id"]
     ispending = request.form["ispending"]
     isapproved = request.form["isapproved"]
-    print(("SQL STATEMENT:     INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
+    # print(("SQL STATEMENT:     INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
     # Insert the data into the database
     cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
     con.commit()

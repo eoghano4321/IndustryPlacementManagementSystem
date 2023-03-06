@@ -14,6 +14,137 @@
             height: 100vh;
             text-align: center;">
             <h5>Login Page</h3>
+                <form action="/submit_login" method="POST">
+                    <div
+                      class="form-row"
+                      style="
+                        display: flex;
+                        gap: 2rem;
+                        margin-left: 10%;
+                        margin-right: 10%;
+                        margin-bottom: 15px;
+                      "
+                    >
+                      <div class="form-group col-md-6">
+                        <label for="fname">First Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="fname"
+                          name="fname"
+                          placeholder="First Name"
+                          style="box-shadow: none"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="form-row"
+                      style="
+                        display: flex;
+                        gap: 2rem;
+                        margin-left: 10%;
+                        margin-right: 10%;
+                        margin-bottom: 15px;
+                      "
+                    >
+                      <div class="form-group col-md-6">
+                        <label for="lname">Last Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lname"
+                          name="lname"
+                          placeholder="Last Name"
+                          style="box-shadow: none"
+                        />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          name="email"
+                          placeholder="example@email.com"
+                          style="box-shadow: none"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="form-row"
+                      style="
+                        display: flex;
+                        gap: 2rem;
+                        margin-left: 10%;
+                        margin-right: 10%;
+                        margin-bottom: 15px;
+                      "
+                    >
+                      <div class="form-group col-md-6">
+                        <label for="pswd">Password</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="pswd"
+                          name="pswd"
+                          placeholder="password"
+                          style="box-shadow: none"
+                        />
+                      </div>
+                      <!-- <div class="form-group col-md-6">
+                        <label for="job_id">JOB_ID</label>
+                        <br />
+                        <select
+                          name="job_id"
+                          onchange="updateValue(this)"
+                          id="job_id"
+                          style="
+                            border-color: rgb(181, 178, 178);
+                            width: 310px;
+                            height: 37px;
+                            border-radius: 7px;
+                          "
+                        >
+                          {% for option in job_id %}
+                          <option value="{{ option }}">{{ option }}</option>
+                          {% endfor %}
+                        </select>
+                      </div> -->
+                    </div>
+                    <!-- <div
+                      class="form-row"
+                      style="
+                        display: flex;
+                        gap: 2rem;
+                        margin-left: 10%;
+                        margin-right: 10%;
+                        margin-bottom: 15px;
+                      "
+                    >
+                      <div class="form-group col-md-6">
+                        <label for="date">Hire Date</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="date"
+                          name="date"
+                          placeholder="Hire Date"
+                          style="box-shadow: none"
+                        />
+                      </div>
+                    </div> -->
+                    <div style="margin-right: 6%; margin-bottom: 10px">
+                      <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                      <button
+                        type="submit"
+                        class="btn btn-dark btn-sm"
+                        data-dismiss="modal"
+                        style="float: right"
+                      >
+                        Add User
+                      </button>
+                    </div>
+                  </form>
         </div>
     </body>
 
