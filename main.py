@@ -111,6 +111,9 @@ def empty():
 def jobs_view():
     return render_template('Insert_jobs.html')
 
+@app.route('/login_View')
+def login():
+    return render_template('login.html')
 
 
 @app.route("/submit_form", methods=["GET", "POST"])
