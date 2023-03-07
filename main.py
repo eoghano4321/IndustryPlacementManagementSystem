@@ -60,6 +60,7 @@ def update():
                     "PSkills": row[2], "Company_Name": row[3],
                     "Address": row[4], "Email": row[5],
                     "Tel": row[6]})
+
     # Close the cursor and connection
     cur.close()
     connection.close()
@@ -73,9 +74,9 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/Insert_View')
-def insert():
-    return render_template('Insertion.html', job_id=id)
+# @app.route('/Insert_View')
+# def insert():
+#     return render_template('Insertion.html', job_id=id)
 
 
 @app.route('/Insertion_data', methods=["GET", "POST"])
@@ -90,28 +91,10 @@ def getData():
     Name = fname + " " + lname
     return render_template('data.html', name=Name, Email=email, Number=num, JOB=job, Date=date)
 
-@app.route('/Insert_jobs', methods=["GET", "POST"])
-def getjobsData():
-    id = request.form["id"]
-    title = request.form["title"]
-    min = request.form["min"]
-    max = request.form["max"]
-    con = oracledb.connect(user=user, password=password, dsn=conn_string)
-    cur = con.cursor()
-    cur.execute("INSERT INTO HR.JOBS(JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY) VALUES (:0, :1, :2,:3)", 
-                (id, title,  int(min), int(max)))
-    con.commit()
-    cur.close()
-    con.close()
-    return render_template('after_submit.html')
-
 @app.route('/empty_View')
 def empty():
     return render_template('empty.html')
 
-@app.route('/insert_jobs_View')
-def jobs_view():
-    return render_template('Insert_jobs.html')
 @app.route('/View_Preferences_View')
 def view_preferences():
     return render_template('ViewPreferences.html')
@@ -180,6 +163,27 @@ def submit_form():
     con.close()
     return render_template('after_submit.html')
 
+@app.route('/new_placement', methods=["GET", "POST"])
+def new_placement():
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    cur.execute("SELECT max(PLACEMENT_ID) FROM IPMS.PLACEMENTS")
+    for row in cur:
+        PId = row[0]
+    #cur.execute("SELECT max(USER_ID) FROM IPMS.USERS")
+    #for row in cur:
+        #PId = row[0]
+    title = request.form["title"]
+    skills = request.form["skills"]
+    desc = request.form["desc"]
+    company_id = request.form["company_id"]
+    
+    cur.execute(("INSERT INTO IPMS.PLACEMENTS VALUES({}, '{}', '{}', '{}', {} CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int (PId)+1, title, skills, desc,company_id))
+    #cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('new_placement.html')
 
     # if request.method == "POST":
     #     print("Posting")
@@ -192,6 +196,31 @@ def submit_form():
     
     # # Pass the data to the template to display in the HTML table
     # return render_template('index.html', data=data, job_id=id)
+
+
+@app.route('/delete_row/<int:id>', methods=['POST'])
+def deleteRow(id):
+    try:
+        json = request.get_json()
+
+        deleteFromID(json)
+
+        return '0'
+
+    except Exception as error:
+        return str(error)
+
+def deleteFromID(_row):
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    print("DELETE FROM IPMS.USERS WHERE USER_ID = "+_row)
+    #cur.execute("DELETE FROM IPMS.USERS WHERE USER_ID = "+_row)
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('after_submit.html')
+
+
 
 
 if __name__ == '__main__':
