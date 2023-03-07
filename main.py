@@ -107,9 +107,9 @@ def Students():
     connection = oracledb.connect(
         user=user, password=password, dsn=conn_string)
     cur = connection.cursor()
-    cur.execute("SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, L.EMAIL FROM IPMS.USERS U INNER JOIN IPMS.LOGIN L ON U.LOGIN_ID = L.LOGIN_ID WHERE ISAPPROVED=1")
+    cur.execute("SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, L.EMAIL, U.ISAPPROVED FROM IPMS.USERS U INNER JOIN IPMS.LOGIN L ON U.LOGIN_ID = L.LOGIN_ID WHERE USER_TYPE_ID=0")
     for row in cur:
-        jobs.append({"UID": row[0], "UfName": row[1], "UlName": row[2], "Email": row[3]})
+        jobs.append({"UID": row[0], "UfName": row[1], "UlName": row[2], "Email": row[3], "App": row[4]})
     cur.close()
     connection.close()
     return render_template('Students.html', data=jobs)
