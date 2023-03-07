@@ -163,6 +163,10 @@ def submit_form():
     con.close()
     return render_template('after_submit.html')
 
+@app.route('/new_placement_view')
+def view_new_placement():
+    return render_template('new_placement.html')
+
 @app.route('/new_placement', methods=["GET", "POST"])
 def new_placement():
     con = oracledb.connect(user=user, password=password, dsn=conn_string)
@@ -178,7 +182,7 @@ def new_placement():
     desc = request.form["desc"]
     company_id = request.form["company_id"]
     
-    cur.execute(("INSERT INTO IPMS.PLACEMENTS VALUES({}, '{}', '{}', '{}', {} CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int (PId)+1, title, skills, desc,company_id))
+    cur.execute(("INSERT INTO IPMS.PLACEMENTS VALUES({}, '{}', '{}', '{}', {}, 0, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int (PId)+1, title, skills, desc,company_id))
     #cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
     con.commit()
     cur.close()
