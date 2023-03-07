@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html>
+  <style>
+    #mod_title{
+      font-weight: bold;
+      -webkit-text-fill-color: darkslategray;
+    }
+    #id{
+      visibility: hidden;
+    }
+  </style>
   <head>
     <title>Flask Tutorial</title>
     {% include 'nav.html' %}
@@ -19,6 +28,7 @@
         <table class="table" id="tbl">
           <thead style="background-color: #070707; color: white">
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Login ID</th>
@@ -32,6 +42,7 @@
             <!-- first-row -->
             {% for row in data %}
             <tr>
+              <td>{{ row["ID"] }}</td>
               <td>{{ row["First_Name"] }}</td>
               <td>{{ row["Last_Name"] }}</td>
               <td>{{ row["Login_ID"] }}</td>
@@ -48,8 +59,9 @@
                   class="fa fa-pencil"
                   aria-hidden="true"
                   style="cursor: pointer"
+                  onclick="updateRow(this)"
                 ></i>
-                <div style="margin-top: -3px">
+                <!-- <div style="margin-top: -3px">
                   <i
                     class="fa fa-plus"
                     aria-hidden="true"
@@ -57,7 +69,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#myModal"
                   ></i>
-                </div>
+                </div> -->
               </td>
             </tr>
             {% endfor %}
@@ -71,7 +83,7 @@
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-      >
+      > 
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header" style="background-color: black">
@@ -96,26 +108,21 @@
                   "
                 >
                   <div class="form-group col-md-6">
-                    <label for="id">User Id</label>
+                    <label for="id" id="mod_title">User Id</label><br>
+                    <label id="id_label"></label>
                     <input
                       type="number"
                       class="form-control"
                       id="id"
                       name="id"
-                      placeholder="User Id"
+                      value=0
+                      placeholder="ID"
                       style="box-shadow: none"
                     />
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="fname">First Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="fname"
-                      name="fname"
-                      placeholder="First Name"
-                      style="box-shadow: none"
-                    />
+                    <label for="fname" id="mod_title">First Name</label><br>
+                    <label id="fname_label">First</label>
                   </div>
                 </div>
                 <div
@@ -129,40 +136,11 @@
                   "
                 >
                   <div class="form-group col-md-6">
-                    <label for="lname">Last Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="lname"
-                      name="lname"
-                      placeholder="Last Name"
-                      style="box-shadow: none"
-                    />
+                    <label for="lname" id="mod_title">Last Name</label><br>
+                    <label id="lname_label">Last</label>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="loginid">Login ID</label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="loginid"
-                      name="loginid"
-                      placeholder="Login ID"
-                      style="box-shadow: none"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="form-row"
-                  style="
-                    display: flex;
-                    gap: 2rem;
-                    margin-left: 10%;
-                    margin-right: 10%;
-                    margin-bottom: 15px;
-                  "
-                >
-                  <div class="form-group col-md-6">
-                    <label for="usertype_id">User Type ID</label>
+                    <label for="usertype_id" id="mod_title">User Type ID</label>
                     <input
                       type="number"
                       class="form-control"
@@ -172,17 +150,6 @@
                       style="box-shadow: none"
                     />
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="ispending">Is Pending</label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="ispending"
-                      name="ispending"
-                      placeholder="Is Pending"
-                      style="box-shadow: none"
-                    />
-                  </div>
                 </div>
                 <div
                   class="form-row"
@@ -195,67 +162,37 @@
                   "
                 >
                   <div class="form-group col-md-6">
-                    <label for="isapproved">Is Approved</label>
+                    <label for="ispending" id="mod_title">Is Pending</label>
                     <input
                       type="number"
                       class="form-control"
-                      id="isapproved"
-                      name="isapproved"
-                      placeholder="Is Approved"
+                      id="ispending"
+                      name="ispending"
+                      placeholder="1"
                       style="box-shadow: none"
                     />
                   </div>
-                  <!-- <div class="form-group col-md-6">
-                    <label for="job_id">JOB_ID</label>
-                    <br />
-                    <select
-                      name="job_id"
-                      onchange="updateValue(this)"
-                      id="job_id"
-                      style="
-                        border-color: rgb(181, 178, 178);
-                        width: 310px;
-                        height: 37px;
-                        border-radius: 7px;
-                      "
-                    >
-                      {% for option in job_id %}
-                      <option value="{{ option }}">{{ option }}</option>
-                      {% endfor %}
-                    </select>
-                  </div> -->
-                </div>
-                <!-- <div
-                  class="form-row"
-                  style="
-                    display: flex;
-                    gap: 2rem;
-                    margin-left: 10%;
-                    margin-right: 10%;
-                    margin-bottom: 15px;
-                  "
-                >
                   <div class="form-group col-md-6">
-                    <label for="date">Hire Date</label>
+                    <label for="isaccepted" id="mod_title">Is Approved</label>
                     <input
-                      type="date"
+                      type="number"
                       class="form-control"
-                      id="date"
-                      name="date"
-                      placeholder="Hire Date"
+                      id="isaccepted"
+                      name="isaccepted"
+                      placeholder="0"
                       style="box-shadow: none"
                     />
                   </div>
-                </div> -->
+                </div>
+                </div> 
                 <div style="margin-right: 6%; margin-bottom: 10px">
-                  <!-- <button type="submit" class="btn btn-default">Submit</button> -->
                   <button
                     type="submit"
                     class="btn btn-dark btn-sm"
                     data-dismiss="modal"
                     style="float: right"
                   >
-                    Add User
+                    Update User
                   </button>
                 </div>
               </form>
@@ -266,6 +203,8 @@
     </main>
     <script>
       function myFunction() {
+        
+        console.log("func")
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("input1");
         filter = input.value.toUpperCase();
@@ -282,6 +221,45 @@
             }
           }
         }
+      }
+
+      function updateRow(_row){
+        let arr= [];
+
+        _row.parentNode.parentNode.querySelectorAll('td').forEach(item=>{
+          if (item.getAttribute('class') != "text-center") {
+            arr.push(item.innerHTML);
+          }
+        },this);
+        var current_id = arr[0];
+        var current_lname = arr[2];
+        var current_fname = arr[1];
+        var current_type = arr[4];
+        var current_pend = arr[5];
+        var current_acc = arr[6];
+
+
+        const uid = document.getElementById("id_label");
+        uid.innerHTML = current_id;
+        const u_id = document.getElementById("id");
+        u_id.placeholder = current_id;
+        u_id.value = current_id;
+        const fname = document.getElementById("fname_label");
+        fname.innerHTML = current_fname;
+        const lname = document.getElementById("lname_label");
+        lname.innerHTML = current_lname;
+        const utype = document.getElementById("usertype_id");
+        utype.placeholder = current_type;
+        utype.value = current_type;
+        const pend = document.getElementById("ispending");
+        pend.placeholder = current_pend;
+        pend.value = current_pend;
+        const acc = document.getElementById("isaccepted");
+        acc.placeholder = current_acc;
+        acc.value = current_acc;
+
+        console.log(arr);
+        $('#myModal').modal('show');
       }
     </script>
   </body>

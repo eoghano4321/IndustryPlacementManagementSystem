@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 user = 'SYSTEM'
 password = 'root'
 port = 1521
-service_name = 'XEPDB1'
+service_name = 'XE'
 conn_string = "localhost:{port}/{service_name}".format(
     port=port, service_name=service_name)
 app = Flask(__name__)
@@ -18,8 +18,8 @@ id = []
 connection = oracledb.connect(
     user=user, password=password, dsn=conn_string)
 cur = connection.cursor()
-job_id = cur.execute('select LOGIN_ID from IPMS.LOGIN')
-for row in job_id:
+login_id = cur.execute('select LOGIN_ID from IPMS.LOGIN')
+for row in login_id:
     id.append(row[0])
 cur.close()
 connection.close()
@@ -30,7 +30,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/employee_view', methods=['GET', 'POST'])
+@app.route('/user_View', methods=['GET', 'POST'])
 def get_data():
     print("Getting")
     connection = oracledb.connect(
@@ -39,7 +39,7 @@ def get_data():
     cur.execute('select * from IPMS.USERS')
     data.clear()
     for row in cur:
-        data.append({"First_Name": row[2], "Last_Name": row[1],
+        data.append({"ID": row[0], "First_Name": row[2], "Last_Name": row[1],
                     "Login_ID": row[3], "USERTYPE_ID": row[4], "IS_PENDING": row[5], "IS_APPROVED": row[6]})
     # Close the cursor and connection
     cur.close()
@@ -137,21 +137,44 @@ def choose_view():
 def login():
     return render_template('login.html')
 
+@app.route('/submit_login', methods=["GET", "POST"])
+def submit_login():
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    cur.execute("SELECT max(LOGIN_ID) FROM IPMS.LOGIN")
+    for row in cur:
+        LId = row[0]
+    cur.execute("SELECT max(USER_ID) FROM IPMS.USERS")
+    for row in cur:
+        UId = row[0]
+    email = request.form["email"]
+    pswd = request.form["pswd"]
+    fname = request.form["fname"]
+    lname = request.form["lname"]
+    usertype_id = 0
+    ispending = 1
+    isapproved = 0
+    cur.execute(("INSERT INTO IPMS.LOGIN VALUES({}, '{}', '{}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(LId)+1, email, pswd))
+    cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('after_submit.html')
+
 
 @app.route("/submit_form", methods=["GET", "POST"])
 def submit_form():
+    print("SUBMITTING")
     con = oracledb.connect(user=user, password=password, dsn=conn_string)
     cur = con.cursor()
     Id = request.form["id"]
-    fname = request.form["fname"]
-    lname = request.form["lname"]
-    login_id = request.form["loginid"]
     usertype_id = request.form["usertype_id"]
     ispending = request.form["ispending"]
-    isapproved = request.form["isapproved"]
-    print(("SQL STATEMENT:     INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
+    isapproved = request.form["isaccepted"]
+    print("TEST" + Id + usertype_id + ispending + isapproved)
     # Insert the data into the database
-    cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(Id), lname, fname, login_id, usertype_id, int(ispending), int(isapproved)))
+    print(("UPDATE IPMS.USERS SET USER_TYPE_ID = {}, ISPENDING = {}, ISAPPROVED = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE USER_ID = {}").format(usertype_id, ispending, isapproved, Id))
+    cur.execute(("UPDATE IPMS.USERS SET USER_TYPE_ID = {}, ISPENDING = {}, ISAPPROVED = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE USER_ID = {}").format(usertype_id, ispending, isapproved, Id))
     con.commit()
     cur.close()
     con.close()
