@@ -37,7 +37,7 @@
                 </tr>
               </thead>
               <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
-                <!-- first-row -->
+                <!-- first-row 
                 {% for row in data %}
                 <tr>
                   <td>{{ row["PTitle"] }}</td>
@@ -51,10 +51,10 @@
                 {% endfor %}
               </tbody>
             </table>
-          </div>-->
-        <!--<div id="table">
+          </div> 
+        <div id="table">
             <div style="margin-right: 6%; margin-bottom: 10px">
-              <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+               <button type="submit" class="btn btn-default">Submit</button> 
               <button
                 type="submit"
                 class="btn btn-dark btn-sm"
@@ -72,7 +72,10 @@
                 <th scope="col">Title</th>
                 <th scope="col">Skills</th>
                 <th scope="col">Description</th>
-                <th scope="col">Company ID</th>
+                <th scope="col">Company</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Tel</th>
                 <th scope="col">Assigned User</th>
                 <th scope="col">Status ID</th>
                 <th scope="col">Action</th>
@@ -86,7 +89,10 @@
                 <td>{{ row["PTitle"] }}</td>
                 <td>{{ row["Skills"] }}</td>
                 <td>{{ row["Desc"] }}</td>
-                <td>{{ row["CID"] }}</td>
+                <td>{{ row["Company_Name"] }}</td>
+                <td>{{ row["Address"] }}</td>
+                <td>{{ row["Email"] }}</td>
+                <td>{{ row["Tel"] }}</td>
                 <td>{{ row["UID"] }}</td>
                 <td>{{ row["SID"] }}</td>
                 <td style="display: flex">
@@ -163,7 +169,7 @@
                   >
                     
                     <div class="form-group col-md-6">
-                      <label for="cid" id="mod_title">Company ID</label><br>
+                      <label for="cid" id="mod_title">Company Name</label><br>
                       <label id="cid_label"></label>
                     </div>
                     <div class="form-group col-md-6">
@@ -190,7 +196,7 @@
                     "
                   >
                     <div class="form-group col-md-6">
-                      <label for="description" id="mod_title">Description</label>
+                      <label for="desc" id="mod_title">Description</label>
                       <input
                         type="text"
                         class="form-control"
@@ -264,8 +270,8 @@
           var current_title = arr[1];
           var current_desc = arr[3];
           var current_cid = arr[4];
-          var current_uid = arr[5];
-          var current_sid = arr[6];
+          var current_uid = arr[8];
+          var current_sid = arr[9];
 
 
           const pid = document.getElementById("id_label");

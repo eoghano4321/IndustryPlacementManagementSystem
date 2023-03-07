@@ -54,12 +54,14 @@ def update():
     connection = oracledb.connect(
         user=user, password=password, dsn=conn_string)
     cur = connection.cursor()
-    cur.execute("SELECT P.TITLE, P.DESCRIPTION, P.SKILLS, C.COMPANY_NAME, C.ADDRESS, C.EMAIL, C.TELEPHONE FROM IPMS.PLACEMENTS P INNER JOIN IPMS.COMPANIES C ON P.COMPANY_ID = C.COMPANY_ID INNER JOIN IPMS.STATUS S ON P.STATUS_ID = S.STATUS_ID WHERE S.STATUS_TYPE = 'open'")
+    cur.execute("SELECT P.PLACEMENT_ID, P.TITLE, P.DESCRIPTION, P.SKILLS, P.COMPANY_ID, C.COMPANY_NAME, C.ADDRESS, C.EMAIL, C.TELEPHONE, P.USER_ID, P.STATUS_ID FROM IPMS.PLACEMENTS P INNER JOIN IPMS.COMPANIES C ON P.COMPANY_ID = C.COMPANY_ID INNER JOIN IPMS.STATUS S ON P.STATUS_ID = S.STATUS_ID WHERE S.STATUS_TYPE = 'open'")
+    
     for row in cur:
-        jobs.append({"PTitle": row[0], "PDesc": row[1],
-                    "PSkills": row[2], "Company_Name": row[3],
-                    "Address": row[4], "Email": row[5],
-                    "Tel": row[6]})
+        jobs.append({"PID": row[0], "PTitle": row[1],
+                    "Skills": row[3], "Desc": row[2], "Company_Name":row[5],
+                    "Address": row[6], "Email": row[7],
+                    "Tel": row[8], "UID":row[9], "SID":row[10]})
+
 
     # Close the cursor and connection
     cur.close()
@@ -163,6 +165,25 @@ def submit_form():
     con.close()
     return render_template('after_submit.html')
 
+@app.route("/submit_placements_form", methods=["GET", "POST"])
+def submit_pform():
+    print("SUBMITTING")
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    Id = request.form["id"]
+    user_id = request.form["userid"]
+    status_id = request.form["statusid"]
+    skills = request.form["skills"]
+    desc = request.form["desc"]
+    # Insert the data into the database
+    print(("UPDATE IPMS.PLACEMENTS SET USER_ID = {}, SKILLS = '{}', DESCRIPTION = '{}', STATUS_ID = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE PLACEMENT_ID = {}").format(user_id, skills, desc, status_id, Id))
+    cur.execute(("UPDATE IPMS.PLACEMENTS SET USER_ID = {}, SKILLS = '{}', DESCRIPTION = '{}', STATUS_ID = {}, UPDATED_AT = CURRENT_TIMESTAMP WHERE PLACEMENT_ID = {}").format(user_id, skills, desc, status_id, Id))
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('after_submit.html')
+
+
 @app.route('/new_placement_view')
 def view_new_placement():
     return render_template('new_placement.html')
@@ -182,6 +203,9 @@ def new_placement():
     desc = request.form["desc"]
     company_id = request.form["company_id"]
     
+    if PId is None:
+        PId = -1
+
     cur.execute(("INSERT INTO IPMS.PLACEMENTS VALUES({}, '{}', '{}', '{}', {}, 0, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int (PId)+1, title, skills, desc,company_id))
     #cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
     con.commit()
