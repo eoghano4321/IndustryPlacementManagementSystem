@@ -71,9 +71,9 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/Insert_View')
-def insert():
-    return render_template('Insertion.html', job_id=id)
+# @app.route('/Insert_View')
+# def insert():
+#     return render_template('Insertion.html', job_id=id)
 
 
 @app.route('/Insertion_data', methods=["GET", "POST"])
@@ -88,28 +88,10 @@ def getData():
     Name = fname + " " + lname
     return render_template('data.html', name=Name, Email=email, Number=num, JOB=job, Date=date)
 
-@app.route('/Insert_jobs', methods=["GET", "POST"])
-def getjobsData():
-    id = request.form["id"]
-    title = request.form["title"]
-    min = request.form["min"]
-    max = request.form["max"]
-    con = oracledb.connect(user=user, password=password, dsn=conn_string)
-    cur = con.cursor()
-    cur.execute("INSERT INTO HR.JOBS(JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY) VALUES (:0, :1, :2,:3)", 
-                (id, title,  int(min), int(max)))
-    con.commit()
-    cur.close()
-    con.close()
-    return render_template('after_submit.html')
-
 @app.route('/empty_View')
 def empty():
     return render_template('empty.html')
 
-@app.route('/insert_jobs_View')
-def jobs_view():
-    return render_template('Insert_jobs.html')
 @app.route('/View_Preferences_View')
 def view_preferences():
     return render_template('ViewPreferences.html')
