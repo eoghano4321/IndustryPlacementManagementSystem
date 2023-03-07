@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-
+    <style>
+      #mod_title{
+        font-weight: bold;
+        -webkit-text-fill-color: darkslategray;
+      }
+      #id{
+        visibility: hidden;
+      }
+    </style>
     <head>
         <title>View Jobs Tutorial</title>
         {% include 'nav.html' %}
     </head>
 
     <body>
-        
+      <main>
         <div style="display: flex;
             justify-content: center;
             align-items: center;
@@ -16,28 +24,235 @@
         </div>
         
         <div id="table">
-            <table class="table" id="tbl">
-              <thead style="background-color: #070707; color: white">
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Skills</th>
-                  <th scope="col">Description</th>
-                </tr>
-              </thead>
-              <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
-                <!-- first-row -->
-                {% for row in data %}
-                <tr>
-                  <td>{{ row["PID"] }}</td>
-                  <td>{{ row["PTitle"] }}</td>
-                  <td>{{ row["Skills"] }}</td>
-                  <td>{{ row["Desc"] }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div
+          <table class="table" id="tbl">
+            <thead style="background-color: #070707; color: white">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Skills</th>
+                <th scope="col">Description</th>
+                <th scope="col">Company ID</th>
+                <th scope="col">Assigned User</th>
+                <th scope="col">Status ID</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
+              <!-- first-row -->
+              {% for row in data %}
+              <tr>
+                <td>{{ row["PID"] }}</td>
+                <td>{{ row["PTitle"] }}</td>
+                <td>{{ row["Skills"] }}</td>
+                <td>{{ row["Desc"] }}</td>
+                <td>{{ row["CID"] }}</td>
+                <td>{{ row["UID"] }}</td>
+                <td>{{ row["SID"] }}</td>
+                <td style="display: flex">
+                  <i
+                    class="fa fa-pencil"
+                    aria-hidden="true"
+                    style="cursor: pointer"
+                    onclick="updateRow(this)"
+                  ></i>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+          <!-- Modal Insert -->
+        <div
+        class="modal fade"
+        id="myModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        > 
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color: black">
+                <button
+                  style="background-color: rgb(223, 221, 220)"
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form action="/submit_placements_form" method="POST">
+                  <div
+                    class="form-row"
+                    style="
+                      display: flex;
+                      gap: 2rem;
+                      margin-left: 10%;
+                      margin-right: 10%;
+                      margin-bottom: 15px;
+                    "
+                  >
+                    <div class="form-group col-md-6">
+                      <label for="id" id="mod_title">Placement Id</label><br>
+                      <label id="id_label"></label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="id"
+                        name="id"
+                        value=0
+                        placeholder="ID"
+                        style="box-shadow: none"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="title" id="mod_title">Placement Title</label><br>
+                      <label id="title_label"></label>
+                    </div>
+                  </div>
+                  <div
+                    class="form-row"
+                    style="
+                      display: flex;
+                      gap: 2rem;
+                      margin-left: 10%;
+                      margin-right: 10%;
+                      margin-bottom: 15px;
+                    "
+                  >
+                    
+                    <div class="form-group col-md-6">
+                      <label for="cid" id="mod_title">Company ID</label><br>
+                      <label id="cid_label"></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="skills" id="mod_title">Skills</label><br>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="skills"
+                        name="skills"
+                        placeholder="Skills"
+                        style="box-shadow: none"
+                      />
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="form-row"
+                    style="
+                      display: flex;
+                      gap: 2rem;
+                      margin-left: 10%;
+                      margin-right: 10%;
+                      margin-bottom: 15px;
+                    "
+                  >
+                    <div class="form-group col-md-6">
+                      <label for="description" id="mod_title">Description</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="desc"
+                        name="desc"
+                        placeholder="Description"
+                        style="box-shadow: none"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="userid" id="mod_title">User ID</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="userid"
+                        name="userid"
+                        placeholder="1"
+                        style="box-shadow: none"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="form-row"
+                    style="
+                      display: flex;
+                      gap: 2rem;
+                      margin-left: 10%;
+                      margin-right: 10%;
+                      margin-bottom: 15px;
+                    "
+                  >
+                    <div class="form-group col-md-6">
+                      <label for="statusid" id="mod_title">Status ID</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="statusid"
+                        name="statusid"
+                        placeholder="0"
+                        style="box-shadow: none"
+                      />
+                    </div>
+                  </div> 
+                  <div style="margin-right: 6%; margin-bottom: 10px">
+                    <button
+                      type="submit"
+                      class="btn btn-dark btn-sm"
+                      data-dismiss="modal"
+                      style="float: right"
+                    >
+                      Update Placement
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>  
+      <script>
+        function updateRow(_row){
+          let arr= [];
+
+          _row.parentNode.parentNode.querySelectorAll('td').forEach(item=>{
+            if (item.getAttribute('class') != "text-center") {
+              arr.push(item.innerHTML);
+            }
+          },this);
+          var current_pid = arr[0];
+          var current_skills = arr[2];
+          var current_title = arr[1];
+          var current_desc = arr[3];
+          var current_cid = arr[4];
+          var current_uid = arr[5];
+          var current_sid = arr[6];
+
+
+          const pid = document.getElementById("id_label");
+          pid.innerHTML = current_pid;
+          const p_id = document.getElementById("id");
+          p_id.placeholder = current_pid;
+          p_id.value = current_pid;
+          const skills = document.getElementById("skills");
+          skills.placeholder = current_skills;
+          skills.value = current_skills;
+          const title = document.getElementById("title_label");
+          title.innerHTML = current_title;
+          const desc = document.getElementById("desc");
+          desc.placeholder = current_desc;
+          desc.value = current_desc;
+          const cid = document.getElementById("cid_label");
+          cid.innerHTML = current_cid;
+          const uid = document.getElementById("userid");
+          uid.placeholder = current_uid;
+          uid.value = current_uid;
+          const sid = document.getElementById("statusid");
+          sid.placeholder = current_sid;
+          sid.value = current_sid;
+
+          console.log(arr);
+          $('#myModal').modal('show');
+        }
+      </script>
     </body>
 
 </html>

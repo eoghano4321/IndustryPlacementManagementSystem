@@ -50,11 +50,12 @@
               <td>{{ row["IS_PENDING"] }}</td>
               <td>{{ row["IS_APPROVED"] }}</td>
               <td style="display: flex; gap: 10px">
-                <i
+                <!-- <i
                   class="fa fa-trash-o"
                   aria-hidden="true"
                   style="cursor: pointer"
-                ></i>
+                  onclick="deleteRow(this)"
+                ></i> -->
                 <i
                   class="fa fa-pencil"
                   aria-hidden="true"
@@ -222,6 +223,28 @@
           }
         }
       }
+
+      function deleteRow(_row){
+        var xhr = new XMLHttpRequest();
+        var url = "/delete_row";
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        let arr= [];
+
+        _row.parentNode.parentNode.querySelectorAll('td').forEach(item=>{
+          if (item.getAttribute('class') != "text-center") {
+            arr.push(item.innerHTML);
+          }
+        },this);
+
+        var data = JSON.stringify({"_row":arr[0]});
+        xhr.send(data);
+
+
+      }
+
 
       function updateRow(_row){
         let arr= [];
