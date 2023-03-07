@@ -54,10 +54,13 @@ def update():
     connection = oracledb.connect(
         user=user, password=password, dsn=conn_string)
     cur = connection.cursor()
-    cur.execute('SELECT PLACEMENT_ID, TITLE, SKILLS, DESCRIPTION, COMPANY_ID, USER_ID, STATUS_ID FROM IPMS.PLACEMENTS')
+    cur.execute("SELECT P.TITLE, P.DESCRIPTION, P.SKILLS, C.COMPANY_NAME, C.ADDRESS, C.EMAIL, C.TELEPHONE FROM IPMS.PLACEMENTS P INNER JOIN IPMS.COMPANIES C ON P.COMPANY_ID = C.COMPANY_ID INNER JOIN IPMS.STATUS S ON P.STATUS_ID = S.STATUS_ID WHERE S.STATUS_TYPE = 'open'")
     for row in cur:
-        jobs.append({"PID": row[0], "PTitle": row[1],
-                    "Skills": row[2], "Desc": row[3], "CID": row[4], "UID": row[5], "SID": row[6]})
+        jobs.append({"PTitle": row[0], "PDesc": row[1],
+                    "PSkills": row[2], "Company_Name": row[3],
+                    "Address": row[4], "Email": row[5],
+                    "Tel": row[6]})
+
     # Close the cursor and connection
     cur.close()
     connection.close()
@@ -95,9 +98,19 @@ def empty():
 @app.route('/View_Preferences_View')
 def view_preferences():
     return render_template('ViewPreferences.html')
-@app.route('/Students_View')
+
+@app.route('/Students_View',methods=['GET'])
 def Students():
-    return render_template('Students.html')
+    jobs = []
+    connection = oracledb.connect(
+        user=user, password=password, dsn=conn_string)
+    cur = connection.cursor()
+    cur.execute("SELECT U.USER_ID, U.FIRST_NAME, U.LAST_NAME, L.EMAIL FROM IPMS.USERS U INNER JOIN IPMS.LOGIN L ON U.LOGIN_ID = L.LOGIN_ID WHERE ISAPPROVED=1")
+    for row in cur:
+        jobs.append({"UID": row[0], "UfName": row[1], "UlName": row[2], "Email": row[3]})
+    cur.close()
+    connection.close()
+    return render_template('Students.html', data=jobs)
 
 @app.route('/choosePreference_View')
 def choose_view():
