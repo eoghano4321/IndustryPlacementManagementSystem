@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Flask Tutorial</title>
+        {% include 'nav.html' %}
+    </head>
+
+    <body>
+        <div style="display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;">
+            <h5>Students</h3>
+        </div>
+        
+        <div id="table">
+            <table class="table" id="tbl">
+              <thead style="background-color: #070707; color: white">
+                <tr>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Login ID</th>
+                </tr>
+              </thead>
+              <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
+                <!-- first-row -->
+                {% for row in data %}
+                <tr>
+                  <td>{{ row["Last_name"] }}</td>
+                  <td>{{ row["First_name"] }}</td>
+                  <td>{{ row["Login_id"] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div
+        
+    </body>
+
+</html>
