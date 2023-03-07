@@ -22,6 +22,7 @@
                   <th scope="col">FirstName</th>
                   <th scope="col">LastName</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Is Approved</th>
                 </tr>
               </thead>
               <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
@@ -32,6 +33,7 @@
                   <td>{{ row["UfName"] }}</td>
                   <td>{{ row["UlName"] }}</td>
                   <td>{{ row["Email"] }}</td>
+                  <td>{{ row["App"] }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
