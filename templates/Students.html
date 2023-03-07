@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Flask Tutorial</title>
+        <title>View Students</title>
         {% include 'nav.html' %}
     </head>
 
@@ -18,23 +18,25 @@
             <table class="table" id="tbl">
               <thead style="background-color: #070707; color: white">
                 <tr>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Login ID</th>
+                  <th scope="col">UserID</th>
+                  <th scope="col">FirstName</th>
+                  <th scope="col">LastName</th>
+                  <th scope="col">Email</th>
                 </tr>
               </thead>
               <tbody id="myTable" style="background-color: rgb(235, 240, 245)">
                 <!-- first-row -->
                 {% for row in data %}
                 <tr>
-                  <td>{{ row["Last_name"] }}</td>
-                  <td>{{ row["First_name"] }}</td>
-                  <td>{{ row["Login_id"] }}</td>
+                  <td>{{ row["UID"] }}</td>
+                  <td>{{ row["UfName"] }}</td>
+                  <td>{{ row["UlName"] }}</td>
+                  <td>{{ row["Email"] }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
-          </div
+          </div>
         
     </body>
 
