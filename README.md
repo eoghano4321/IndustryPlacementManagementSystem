@@ -48,7 +48,7 @@ Open DBeaver and establish a connection with the database using credentials of S
 
 <details><summary><b>Step 6 - Launch the app</b></summary>
 <p>
-Open the repository folder in your preffered IDE, and run 'main.py'.<br>
-Paste the follwing link in your browser: 'http://127.0.0.1:5000'
+Open the repository folder in your preferred IDE, and run 'main.py'.<br>
+Paste the following link in your browser: 'http://127.0.0.1:5000'
 </p>
 </details>
