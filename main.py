@@ -150,6 +150,27 @@ def submit_form():
     con.close()
     return render_template('after_submit.html')
 
+@app.route('/new_placement', methods=["GET", "POST"])
+def new_placement():
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    cur.execute("SELECT max(PLACEMENT_ID) FROM IPMS.PLACEMENTS")
+    for row in cur:
+        PId = row[0]
+    #cur.execute("SELECT max(USER_ID) FROM IPMS.USERS")
+    #for row in cur:
+        #PId = row[0]
+    title = request.form["title"]
+    skills = request.form["skills"]
+    desc = request.form["desc"]
+    company_id = request.form["company_id"]
+    
+    cur.execute(("INSERT INTO IPMS.PLACEMENTS VALUES({}, '{}', '{}', '{}', {} CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int (PId)+1, title, skills, desc,company_id))
+    #cur.execute(("INSERT INTO IPMS.USERS VALUES({}, '{}', '{}', {},{},{},{}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)").format(int(UId)+1, lname, fname, LId, usertype_id, int(ispending), int(isapproved)))
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('new_placement.html')
 
     # if request.method == "POST":
     #     print("Posting")
