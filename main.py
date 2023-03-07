@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 user = 'SYSTEM'
 password = 'root'
 port = 1521
-service_name = 'XE'
+service_name = 'XEPDB1'
 conn_string = "localhost:{port}/{service_name}".format(
     port=port, service_name=service_name)
 app = Flask(__name__)
