@@ -54,10 +54,10 @@ def update():
     connection = oracledb.connect(
         user=user, password=password, dsn=conn_string)
     cur = connection.cursor()
-    cur.execute('SELECT PLACEMENT_ID, TITLE, SKILLS, DESCRIPTION FROM IPMS.PLACEMENTS')
+    cur.execute('SELECT PLACEMENT_ID, TITLE, SKILLS, DESCRIPTION, COMPANY_ID, USER_ID, STATUS_ID FROM IPMS.PLACEMENTS')
     for row in cur:
         jobs.append({"PID": row[0], "PTitle": row[1],
-                    "Skills": row[2], "Desc": row[3]})
+                    "Skills": row[2], "Desc": row[3], "CID": row[4], "UID": row[5], "SID": row[6]})
     # Close the cursor and connection
     cur.close()
     connection.close()
@@ -180,6 +180,31 @@ def submit_form():
     
     # # Pass the data to the template to display in the HTML table
     # return render_template('index.html', data=data, job_id=id)
+
+
+@app.route('/delete_row/<int:id>', methods=['POST'])
+def deleteRow(id):
+    try:
+        json = request.get_json()
+
+        deleteFromID(json)
+
+        return '0'
+
+    except Exception as error:
+        return str(error)
+
+def deleteFromID(_row):
+    con = oracledb.connect(user=user, password=password, dsn=conn_string)
+    cur = con.cursor()
+    print("DELETE FROM IPMS.USERS WHERE USER_ID = "+_row)
+    #cur.execute("DELETE FROM IPMS.USERS WHERE USER_ID = "+_row)
+    con.commit()
+    cur.close()
+    con.close()
+    return render_template('after_submit.html')
+
+
 
 
 if __name__ == '__main__':
